@@ -1,28 +1,29 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from '../styles/theme';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Register from './Register';
+import useAuth from '../hooks/useAuth';
 import Login from './Login';
+import Home from './Home';
 
-const UnauthenticatedApp = () => {
-    return (
-        <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-    );
-};
+const AuthenticatedApp = () => (
+    <Routes>
+        <Route path="/register" element={<Navigate to="/" replace />} />
+        <Route path="/login" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Home />} />
+    </Routes>
+);
+
+const UnauthenticatedApp = () => (
+    <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+);
 
 const Root = () => {
-    return (
-        <BrowserRouter>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <UnauthenticatedApp />
-            </ThemeProvider>
-        </BrowserRouter>
-    );
+    const { currentUser } = useAuth();
+
+    return currentUser ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 };
 
 export default Root;
