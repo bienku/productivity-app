@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
 import { registerSchema } from '../schema/account';
 import useAuth from '../hooks/useAuth';
@@ -14,7 +14,7 @@ const Register = () => {
         confirmPassword: '',
     };
 
-    const handleSubmit = (values: typeof initialValues, actions: FormikHelpers<typeof initialValues>) => {
+    const handleSubmit = (values: typeof initialValues) => {
         signUp(values.email, values.password);
     };
 
@@ -28,7 +28,7 @@ const Register = () => {
 
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={(values, actions) => handleSubmit(values, actions)}
+                        onSubmit={(values) => handleSubmit(values)}
                         validationSchema={registerSchema}
                     >
                         {({ errors, touched, isValid, dirty }) => (

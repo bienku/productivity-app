@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
-import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { loginSchema } from '../schema/account';
 import useAuth from '../hooks/useAuth';
 import { Link as RouterLink } from 'react-router-dom';
@@ -13,7 +13,7 @@ const Login = () => {
         password: '',
     };
 
-    const handleSubmit = (values: typeof initialValues, actions: FormikHelpers<typeof initialValues>) => {
+    const handleSubmit = (values: typeof initialValues) => {
         signIn(values.email, values.password);
     };
 
@@ -26,7 +26,7 @@ const Login = () => {
                     </Typography>
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={(values, actions) => handleSubmit(values, actions)}
+                        onSubmit={(values) => handleSubmit(values)}
                         validationSchema={loginSchema}
                     >
                         {({ handleBlur }) => (

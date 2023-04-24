@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setCurrentUser(user);
             }
         });
-    });
+    }, []);
 
     const signIn = (email: string, password: string) => {
         signInWithEmailAndPassword(auth, email, password)
@@ -55,7 +55,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             });
     };
 
-    const signOut = () => logOut(auth);
+    const signOut = () =>
+        logOut(auth)
+            .then()
+            .catch((error) => {
+                console.warn(error.code, error.message);
+            });
 
     return <AuthContext.Provider value={{ currentUser, signIn, signOut, signUp }}>{children}</AuthContext.Provider>;
 };
